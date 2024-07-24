@@ -19,6 +19,11 @@ export default {
       type: 'string',
     },
     { 
+      name: 'slang_name',
+      title: 'Slang Name',
+      type: 'string',
+    },
+    { 
       name: 'slug',
       title: 'Slug',
       type: 'slug',

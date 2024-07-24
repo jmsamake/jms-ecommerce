@@ -1,5 +1,7 @@
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
+//import { Provider } from 'next-auth/client';
+
 
 import { Layout } from '../components';
 import '../styles/globals.css';

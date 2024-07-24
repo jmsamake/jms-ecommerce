@@ -9,14 +9,27 @@ export const StateContext = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
+  //joes
+  const [omAccessToken, setOmAccessToken] = useState("StateContext InvalidToken");
+  const [omNotifToken, setOmNotifToken] = useState("StateContext InvalidNotifToken");
+  const [omAccessTokenDocId, setOmAccessTokenDocId] = useState("StateContext InvalidDocId");
+  const [orderIdSeq, setOrderIdSeq] = useState(0);
 
   let foundProduct;
   let index;
 
+  const onAccessTokenChange = (token) => {
+    //console.log("StateContext::onAccessTokenChange::B4 call to setOmAccessToken :: "+omAccessToken);
+    setOmAccessToken(token);
+    //console.log("StateContext::onAccessTokenChange::AFTER call to setOmAccessToken :: "+omAccessToken);
+    //setOmAccessToken((token) => "Bearer " + token);
+  }
+
   const onAdd = (product, quantity) => {
     const checkProductInCart = cartItems.find((item) => item._id === product._id);
-    
+    //console.log("StateContext::onAdd::B4 call to setTotalPrice :: "+totalPrice);
     setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity);
+    //console.log("StateContext::onAdd::AFTER call to setTotalPrice :: "+totalPrice);
     setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
     
     if(checkProductInCart) {
@@ -51,6 +64,9 @@ export const StateContext = ({ children }) => {
     index = cartItems.findIndex((product) => product._id === id);
     const newCartItems = cartItems.filter((item) => item._id !== id)
 
+    // joes
+    incOrderIdSeq();
+    // end joes
     if(value === 'inc') {
       setCartItems([...newCartItems, { ...foundProduct, quantity: foundProduct.quantity + 1 } ]);
       setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price)
@@ -66,6 +82,11 @@ export const StateContext = ({ children }) => {
 
   const incQty = () => {
     setQty((prevQty) => prevQty + 1);
+  }
+
+  const incOrderIdSeq = () => {
+    setOrderIdSeq((prevOrderIdSeq) => prevOrderIdSeq + 1);
+    console.log("StateContext::incOrderIdSeq::OrderIdSeq value updated to :: "+orderIdSeq);
   }
 
   const decQty = () => {
@@ -85,14 +106,23 @@ export const StateContext = ({ children }) => {
         totalPrice,
         totalQuantities,
         qty,
+        omAccessToken,
+        omNotifToken,
+        omAccessTokenDocId,
+        orderIdSeq,
         incQty,
         decQty,
         onAdd,
+        onAccessTokenChange,
+        incOrderIdSeq,
         toggleCartItemQuanitity,
         onRemove,
         setCartItems,
         setTotalPrice,
-        setTotalQuantities 
+        setOmAccessToken,
+        setOmNotifToken,
+        setOmAccessTokenDocId,
+        setTotalQuantities,         
       }}
     >
       {children}

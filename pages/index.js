@@ -19,9 +19,10 @@ const Home = ({ products, bannerData }) => (
   </div>
 );
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
   const productQuery = '*[_type == "product"]';
   const products = await client.fetch(productQuery);
+  //const session = await getSession(context)
 
   const bannerQuery = '*[_type == "banner"]';
   const bannerData = await client.fetch(bannerQuery);
